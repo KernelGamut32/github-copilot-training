@@ -19,15 +19,18 @@ catalog-service — Spring Boot 3.3, JDK 21, Maven. Expose:
 3. Review the commentary provided by GitHub Copilot, including any errors uncovered during the generation/build and any mitigating steps the Agent took to proactively address
 4. Explore the generated code
 5. Click `Keep` for each chat-generated file to accept the generated code
-6. Switch Copilot to `Ask` and submit the following prompt: `What steps do I need to take to run this API and test using cURL or POSTMan?`
+6. Submit the following prompt: `What steps do I need to take to run this API and test using cURL or POSTMan?`
 6. Run the API and verify operation via cURL or POSTMan
-7. In Copilot, switch back to `Agent` and submit the following prompt: `Please generate Swagger endpoints for this API`. **NOTE:** In testing, Copilot errored a few times throughout generation; `Try Again` was used repeatedly to complete.
+7. Submit the following prompt: `Please generate Swagger endpoints for this API`. **NOTE:** In testing, Copilot errored a few times throughout generation; `Try Again` was used repeatedly to complete.
 8. If Copilot offers to start up the application to verify Swagger endpoints, click `Allow` (you may be prompted for `Allow` at multiple steps along the way).
 9. If there are errors called out by Copilot, click `Allow` to enable Copilot to attempt to correct - this may be a multi-step process but it highlights the collaborative nature of Copilot.
 10. If Copilot did not offer to start up the application, switch to `Ask` and submit the following prompt: `What steps do I need to take to run this API and test the Swagger endpoints via browser?`
 11. Follow the provided steps to confirm API successfully operates via its Swagger endpoints
-12. Using `Ask` in Copilot, submit the following prompt: `Explain to me the end-to-end process used by the API to provide the "get all tracks" functionality`
-13. Using `Ask` in Copilot, submit the following prompt: `Explain to me the end-to-end process used by the API to provide the "get track by ID" functionality`
-14. Switch to `Edit` in Copilot, and submit the following prompt: `Update the application to include operations for adding a new track, updating and existing track, and deleting an existing track. Make sure you include proper code aligned by application "tier" (i.e., controller, service, etc.).`
-15. Using `Edit` in Copilot, submit the following prompt: `Update the application to include artists with operations to support CRUD for artists`
-16. Using `Edit` in Copilot, submit the following prompt: `Implement a relationship in the API operations between artists and tracks. For this purpose, assume an artist can have multiple tracks but that a track only has a single artist.`
+12. Submit the following prompt: `Explain to me the end-to-end process used by the API to provide the "get all tracks" functionality`
+13. Submit the following prompt: `Explain to me the end-to-end process used by the API to provide the "get track by ID" functionality`
+14. Submit the following prompt: `Update the application to include operations for adding a new track, updating an existing track, and deleting an existing track. Make sure you include proper code aligned by application "tier" (i.e., controller, service, etc.).`
+15. Submit the following prompt: `Update the application to include artists with operations to support CRUD for artists`
+16. Submit the following prompt: `Implement a relationship in the API operations between artists and tracks. For this purpose, assume an artist can have multiple tracks but that a track only has a single artist.`
+17. Submit the following prompt: `Generate and validate JUnit tests for the API code.`
+18. With each step, review carefully what Copilot responds with in terms of commentary, approach, errors encountered, and steps taken to resolve any errors (in essence, validating and correcting itself as it goes)
+19. Make sure you save the Java project (or use Auto Save in Visual Studio Code)
