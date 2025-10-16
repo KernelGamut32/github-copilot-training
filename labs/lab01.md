@@ -153,6 +153,81 @@ Implement or update OpenFdaClient with WebClient using base https://api.fda.gov/
 
 ---
 
+## 💼 Activities: Using Copilot to Define and Enforce Business Rules
+
+These exercises illustrate how to move beyond code generation and use Copilot + Claude to **enforce business logic and healthcare‑specific constraints** within your API. They can be performed after initial scaffolding is complete.
+
+### **Activity 1: Define domain‑specific business rules**
+
+**Objective:** Use Copilot to codify healthcare rules directly in code.
+
+> 💬 **Prompt example**
+
+```text
+Add business rules to InteractionService:
+1. Do not allow saving an interaction note where drugA == drugB.
+2. Limit note length to 1000 characters.
+3. Require at least one of the drugs to be on the hospital formulary list (mocked list).
+Explain how these rules should be validated and how errors should be surfaced.
+```
+
+---
+
+### **Activity 2: Enforce the rules through TDD**
+
+**Objective:** Use test‑first generation to lock in business logic.
+
+> 💬 **Prompt example**
+
+```text
+Write JUnit 5 tests verifying these business rules:
+- reject identical drugs,
+- reject notes >1000 chars,
+- accept valid pairs.
+Generate tests first (TDD style) and then minimal implementation to pass them.
+```
+
+---
+
+### **Activity 3: Refactor rules into a dedicated policy class**
+
+**Objective:** Show how Copilot supports modular rule enforcement.
+
+> 💬 **Prompt example**
+
+```text
+Refactor validation logic into a new component InteractionPolicy that encapsulates all business rules.
+Explain how this improves maintainability and aligns with SOLID principles.
+```
+
+---
+
+### **Activity 4: Explore rule exceptions through agentic reasoning**
+
+**Objective:** Negotiate rule variations interactively with Copilot.
+
+> 💬 **Prompt example**
+
+```text
+Pharmacy input: allow non‑formulary drugs if the note includes the phrase 'clinical justification'.
+Update validation to accommodate this exception and explain the trade‑offs.
+```
+
+---
+
+### **Activity 5: Add auditing for compliance**
+
+**Objective:** Extend rules to include audit trails and logging.
+
+> 💬 **Prompt example**
+
+```text
+Instrument InteractionPolicy to log each rejected note with violated rule, timestamp, and user ID (mocked).
+Suggest a consistent JSON logging format suitable for compliance auditing.
+```
+
+---
+
 ## Part D — Refine with prompts (understanding + SOLID)
 
 Use these prompts to review/refactor:
@@ -178,6 +253,80 @@ Add Bean Validation to ensure drug names are 3–60 chars (letters, spaces, hyph
 ---
 
 ## Part E — Testing with Copilot
+
+---
+
+## ⚡ Activities: Using Copilot and Claude for Request Size Measurement & Performance Testing
+
+These exercises extend Lab 1 by demonstrating how to use **GitHub Copilot** and **Claude (via Agent mode)** to measure performance, request sizes, and enforce performance best practices within your Spring Boot API.
+
+### **Activity 1 — Instrument the API for request/response measurement**
+
+**Objective:** Add automatic metrics logging for payload size and latency.
+
+> 💬 **Prompt example**
+
+```text
+Add request and response metrics to all /signals and /interactions endpoints.
+Track request body size (bytes), response size, and total processing time.
+Use Spring's HandlerInterceptor or WebFilter to capture metrics and log them to a dedicated logger named 'PerformanceMetrics'.
+```
+
+---
+
+### **Activity 2 — Agent-Assisted Profiling with Mock Loads**
+
+**Objective:** Use the agent to simulate synthetic load and analyze results.
+
+> 💬 **Prompt example**
+
+```text
+Generate a JMeter or k6 script to test/signals endpoint with 10, 50, and 200 concurrent users.
+Include parameters for varying payload sizes and show how to capture response times and error rates.
+```
+
+> 🧠 *Follow-up prompt:* Summarize how response latency scales with request size and concurrency, then propose classroom demo thresholds.
+
+---
+
+### **Activity 3 — Automated Performance Testing via JUnit (Copilot)**
+
+**Objective:** Have Copilot generate performance guardrails inside test suites.
+
+> 💬 **Prompt example**
+
+```text
+Write a JUnit 5 test that calls the /signals endpoint 100 times asynchronously
+and asserts that the 95th percentile response time is below 250 ms.
+Use System.nanoTime() or a simple benchmarking library.
+```
+
+---
+
+### **Activity 4 — Diagnose and Optimize with Agentic AI**
+
+**Objective:** Use Copilot + Claude to analyze and optimize code for performance.
+
+> 💬 **Prompt example**
+
+```text
+Analyze InteractionService for performance bottlenecks when calling openFDA.
+Suggest caching strategies, reactive optimizations, or batch requests to improve throughput.
+```
+
+---
+
+### **Activity 5 — Automated PR-Based Performance Review**
+
+**Objective:** Demonstrate automated agentic review focused on performance.
+
+> 💬 **Prompt example**
+
+```text
+@github Review PR #<number> focusing on performance. Identify blocking calls, redundant serialization, or inefficient logging, and propose fixes.
+```
+
+---
 
 ### E1) TDD for domain service
 
