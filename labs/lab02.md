@@ -1,4 +1,4 @@
-# Lab 2: Building a React UI for an API Using GitHub Copilot - From Initial Spec to PR
+# Lab 02: Building a React UI for an API Using GitHub Copilot - From Initial Spec to PR
 
 > Audience: Healthcare developers and technical leads exploring **Agentic AI** with GitHub Copilot to extend an existing API into a user‑facing application. Tools: IntelliJ IDEA Community, GitHub Copilot (Agent mode + MCP), Claude via Copilot, **Spec Kit**, **Context7** MCP server, React 18+, Vite or Create React App, Jest + React Testing Library, GitHub CLI.
 
@@ -41,7 +41,7 @@ The lab demonstrates how **agentic AI** can generate UI code from specification,
 
 ---
 
-## Part A — Generate the specification using Spec Kit (15 min)
+## Part A — Generate the specification using Spec Kit
 
 ### A1) Initialize project and Spec Kit
 
@@ -148,7 +148,7 @@ Explain how the component hierarchy aligns with SOLID and how inversion of contr
 
 ---
 
-## Part E — Automated component testing (20 min)
+## Part E — Automated component testing
 
 ### E1) Generate Jest/RTL tests
 
@@ -176,7 +176,7 @@ Add a new component InteractionNoteForm with tests first. Ensure validation mess
 
 ---
 
-## Part F — Agentic pull request & review (10 min)
+## Part F — Agentic pull request & review
 
 ### F1) Create PR via agent
 

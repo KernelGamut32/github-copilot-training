@@ -1,26 +1,118 @@
-# Lab 03: Enhancing an Existing API to Add Database Using GitHub Copilot
+# Lab 03: Refactoring Legacy JSP Code with Agentic AI (Claude) + GitHub Copilot in IntelliJ IDEA Community Edition
 
-This lab will reinforce key concepts related to using GitHub Copilot to accomplish development tasks like adding a database to an existing Java application. It will target agent-based code creation (like a pair programmer) and demonstrate iterative development, moving an application approach through multiple layers of evolution.
+**Target Audience:** Healthcare developers modernizing legacy Java web modules  
+**Objective:** Use Agentic AI (Claude) via GitHub Copilot to refactor an insecure, monolithic `.jsp` file into a clean, componentized Spring Boot + Thymeleaf application with tests, guided by a specification generated through Spec Kit and the Context7 MCP server.
 
-1. Verify that you are still running in the previous Visual Studio Code workspace (where the Java API exists)
-2. Open the GitHub Copilot chat and confirm that `Agent` is selected alongside a Claude model (e.g., `Claude Sonnet 4`)
-3. Post the following spec to GitHub Copilot chat and submit:
+---
+
+## 💡 Learning Objectives
+
+By the end of this lab, participants will be able to:
+
+1. Generate a **specification** for a refactor using **Spec Kit**.  
+2. Pair **GitHub Copilot Agentic AI (Claude)** with **Context7 MCP Server** to interpret and implement the spec.  
+3. **Convert** a legacy `.jsp` file into a **Spring Boot MVC + Thymeleaf** application.  
+4. Apply modern design practices:
+   - Replace scriptlets with Thymeleaf EL.
+   - Move business logic to **Service** and **Repository** layers.
+   - Parameterize SQL and manage connections safely.
+   - Fix shared mutable state and concurrency issues.
+   - Add validation, error handling, and security.
+   - De-duplicate view fragments and promote reusability.
+5. Generate **robust JUnit tests** for the refactored code.
+
+---
+
+## Prerequisites
+
+- **IntelliJ IDEA Community**
+- **GitHub Copilot (Agent mode)** with Claude + **Context7** MCP configured
+
+---
+
+## Part A — Configure MCP in IntelliJ
+
+Ensure Context7 is connected for contextual lookups.
+
+In Copilot chat:
 
 ```text
-You are my AI pair programmer. We’ll add a persistent datastore to replace the in-memory data store in the Java API defined in this workspace:
-
-catalog-service — Add a SQLite database to the Java API. All of the following should be accounted for:
-    - --table for artists
-    - --table for tracks
-    - --appropriate relationships between the two based on previously defined specs
-    - --data access code consistent with proper Spring Boot and JPA standards (make sure you maintain good partitioning in the code)
-    - --if necessary, adjust the design to ensure that the data access approach is sufficiently isolated from the rest of the API (loose coupling and follow SOLID principles) - I may want to change the data approach to NoSQL in the future and I want that change to be as minimally disruptive as possible
-Add unit tests for any new code and make sure you are taking advantage of Mockito to sufficiently isolate testing at the "unit" level. Also, make any required updates to the generated file tree. Finally, make sure all unit tests pass and verify that the application continues to function end-to-end.
+@context7 Review the legacy.jsp file and tell me what you see in terms of architectural deficiency, bad practice, and potential problem areas (if any).
 ```
 
-4. Review the commentary provided by GitHub Copilot, including any errors uncovered during the generation/build and any mitigating steps the Agent took to proactively address
-5. Explore the generated code
-6. Click `Keep` for each chat-generated file to accept the generated code
-7. Ask Copilot to update the data access layer to use NoSQL instead...
-8. With each step, review carefully what Copilot responds with in terms of commentary, approach, errors encountered, and steps taken to resolve any errors (in essence, validating and correcting itself as it goes)
-9. Make sure you save the Java project (or use Auto Save in Visual Studio Code)
+Verify output; this ensures MCP contextual grounding for Claude.
+
+---
+
+## Part B — Generate the specification using Spec Kit
+
+### B1) Initialize project and Spec Kit
+
+Create an empty repo `agentic-legacy`, open it in IntelliJ, and add the `legacyDashboard.jsp` file to it.
+
+In Copilot chat:
+
+```text
+/speckit.constitution legacyDashboard.jsp --output spec/legacyDashboard.yaml
+Generate a spec from this legacy JSP using Spec Kit and summarize entities and operations.
+```
+
+Commit the generated constitution.
+
+---
+
+## Part C — Building the App
+
+**Prompt C1:**
+
+```text
+Using spec/legacyDashboard.yaml, scaffold an initial Spring Boot MVC + Thymeleaf application according to the spec.
+```
+
+**Prompt C2:**
+
+```text
+Enhance with a Thymeleaf template that replaces the JSP scriptlet loops and uses th:each for user listing.
+```
+
+**Prompt C3:**
+
+```text
+Generate a Spring Data JPA repository for User with findByNameContainingOrEmailContaining.
+```
+
+**Prompt C4:**
+
+```text
+Remove thread-unsafe shared state and use connection pooling via Hikari.
+```
+
+**Prompt C5:**
+
+```text
+Add @ControllerAdvice for global exception handling.
+```
+
+**Prompt C6:**
+
+```text
+Add validation annotations for User fields and HTML escaping in Thymeleaf.
+```
+
+**Prompt C7:**
+
+```text
+Create Thymeleaf fragment templates for header and footer.
+```
+
+**Prompt C8:**
+
+```text
+Refactor duplicated HTML rows into a reusable Thymeleaf fragment.
+```
+
+**Prompt C9:**
+
+```text
+Add unit tests using JUnit 5 and Mockito to cover all CRUD operations.
+```
