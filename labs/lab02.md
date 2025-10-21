@@ -43,25 +43,9 @@ The lab demonstrates how **agentic AI** can generate UI code from specification,
 
 ## Part A — Generate the specification using Spec Kit
 
-### A1) Initialize project and Spec Kit
-
 Create an empty repo `drug-interactions-ui` and open it in IntelliJ.
 
-In Copilot chat:
-
-```text
-/spec init
-Create a React 18 web app named Drug Interactions UI. Pages:
-- HomePage: welcome & API connection status.
-- SearchPage: form to enter Drug A and Drug B → calls API /signals.
-- InteractionNotesPage: displays interaction note for selected drugs, allows edit & save via /interactions.
-Include global navigation and shared components for DrugForm, SignalTable, and NoteCard.
-Use Material‑UI for styling.
-```
-
-Save this as `/spec/ui-spec.yml` and commit.
-
-### A2) Constitution (design & accessibility)
+### A1) Constitution (design & accessibility)
 
 In Copilot chat:
 
@@ -71,6 +55,27 @@ Emphasize accessibility (ARIA labels), modular React architecture, state isolati
 ```
 
 Commit the generated constitution.
+
+### A2) Initialize project and Spec Kit
+
+In Copilot chat:
+
+```text
+/speckit.specify
+I want to build a new web app called Drug Interactions UI that allows me to provide an interface for the operations exposed via an API at http://localhost:8080/api. 
+- HomePage: welcome & API connection status.
+- SearchPage: form to enter Drug A and Drug B → calls API /signals.
+- InteractionNotesPage: displays interaction note for selected drugs, allows edit & save via /interactions.
+```
+
+```text
+/specify.plan
+Scaffold a React 18 web app named Drug Interactions UI using Vite.
+Include routes: /, /search, /notes. Use Material‑UI and React Router. Implement API client with axios targeting http://localhost:8080.
+Generate main App.jsx, DrugForm.jsx, SignalTable.jsx, NoteCard.jsx, and NavigationBar.jsx.
+```
+
+Execute `/speckit.tasks` and `/speckit.implement`.
 
 ---
 

@@ -53,11 +53,20 @@ Create an empty repo `agentic-legacy`, open it in IntelliJ, and add the `legacyD
 In Copilot chat:
 
 ```text
-/speckit.constitution legacyDashboard.jsp --output spec/legacyDashboard.yaml
-Generate a spec from this legacy JSP using Spec Kit and summarize entities and operations.
+/speckit.constitution Review the legacyDashboard.jsp file for violations of modern architectural practices. Recommend a set of architectural guidelines that can be used to modernize this legacy implementation, bringing it in alignment with today's standards and best practices for design, security, state management, database integration, and SOLID.
 ```
 
 Commit the generated constitution.
+
+```text
+/speckit.specify I want to build a modernized web UI to replace the legacy functionality in legacyDashboard.jsp. I'm looking for good separation of concerns and robust architectural implementation.
+```
+
+```text
+/speckit.plan Please scaffold an initial Spring Boot MVC + Thymeleaf application that I can use as a user-friendly replacement for the legacy implementation in legacyDashboard.jsp.
+```
+
+Execute `/speckit.tasks` and `/speckit.implement`
 
 ---
 

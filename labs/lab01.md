@@ -46,7 +46,11 @@ You’re building a Drug Interactions micro‑service for a hospital’s formula
 
 See <https://docs.astral.sh/uv/getting-started/installation/> for `uvx` installation instructions. spec-kit is available at <https://github.com/github/spec-kit>.
 
+`uv tool install specify-cli --from git+https://github.com/github/spec-kit.git`
+
 `uvx --from git+https://github.com/github/spec-kit.git specify --help`
+
+In the IntelliJ terminal, execute `specify init . --ai copilot`
 
 ### A2) Generate a project constitution (S.D.D. guardrails)
 
@@ -57,6 +61,8 @@ In your repo root, in GitHub Copilot chat:
 Create principles emphasizing: SOLID, hexagonal architecture, WebClient over RestTemplate, UUIDs, Bean Validation, unit tests with Mockito & AssertJ, integration tests with WireMock, 80%+ line/branch coverage on service layer, security basics, reproducible builds, and style via Spotless. Include accessibility in API docs.
 ```
 
+If it prompts you to generate, respond with something like `Don't generate yet, please`
+
 This should produce `speckit.constitution`. Commit it.
 
 ### A3) Draft the OpenAPI spec with Spec Kit
@@ -64,24 +70,19 @@ This should produce `speckit.constitution`. Commit it.
 In your repo root, in GitHub Copilot chat:
 
 ```text
-/spec init
-Create an OpenAPI 3.1 spec named Drug Interactions API. Resources:
-- POST /interactions: upsert an interaction note for a drug pair {drugA, drugB, note}.
-- GET /interactions?drugA&drugB: fetch interaction note if present.
-- GET /signals?drugA&drugB&limit=50: call openFDA drug/event to aggregate records where both names appear in patient.drug.medicinalproduct; return {count, topReactions[reaction, n]}.
-- Validations: drug names 3–60 chars, alphabetic + spaces/hyphens.
-- Errors: 400 validation, 404 for missing note, 502 for upstream errors.
-- Security: none (classroom).
-- Tags, examples, and JSON schemas.
+/speckit.specify
+Create an API (using OpenAPI 3.1 for specifications) that will allow a client application to execute any of the following operations:
+- Upsert an interaction note for a drug pair {drugA, drugB, note}
+- Retrieve an interaction note for a drug pair (if present)
+- Wrap a call to the openFDA drug/event API to aggregate records where both drug names appear as medicinal products in a patient's drug record
+Since this is a classroom example, there's no need for additional security at this time.
 ```
-
-This should generate a file called `openapi.yaml`. This file may contain errors and/or warnings. If it does, try submitting `Fix the identified errors and warnings in this file` with `openapi.yaml` referenced. You might also try regenerating the spec. Save the spec as `openapi.yaml` in `/spec` and commit.
 
 ---
 
-## Part B — Configure MCP in IntelliJ with Context7
+## Part B — Configure MCP in IDE with Context7
 
-### B1) Enable MCP client in IntelliJ for Copilot (Agent mode)
+### B1) Enable MCP client in IDE for Copilot (Agent mode)
 
 In IntelliJ, open **File → Settings → Tools → GitHub Copilot → Model Context Protocol (MCP)** and click **Configure**. This should generate a `mcp.json` configuration file.
 
@@ -95,9 +96,19 @@ Use stdio with npx:
 {
     "servers": {
         "context7": {
-        "type": "stdio",
-        "command": "npx",
-        "args": ["-y", "@upstash/context7-mcp", "--api-key", "CONTEXT7_API_KEY"]
+            "type": "stdio",
+            "command": "npx",
+            "args": ["-y", "@upstash/context7-mcp", "--api-key", "ctx7sk-9b6a5e30-c3c7-484f-a10f-25735d8de984"]
+        },
+        "sequential-thinking": {
+            "type": "stdio",
+            "command": "npx",
+            "args": ["-y", "@modelcontextprotocol/server-sequential-thinking"]
+        },
+        "chrome-devtools": {
+            "type": "stdio",
+            "command": "npx",
+            "args": ["chrome-devtools-mcp@latest"]
         }
     }
 }
@@ -115,11 +126,30 @@ In Copilot Chat, from repo root, use these prompts (paste verbatim):
 
 ### Prompt C1 — Generate Spring Boot project
 
+Modify to use the path for your Open API specification or open the yaml file and ask Copilot to scaffold using that file.
+
 ```text
-@github Using the /spec/openapi.yaml, scaffold a Spring Boot 3.3 Maven project named drug-interactions-api. Create modules:
-:app (web/controller), :domain (model + ports), :adapters:openfda (WebClient adapter), :adapters:memory (in‑memory repo), :tests (shared test fixtures). Add dependencies: spring-boot-starter-web, validation, spring-boot-starter-test, jackson-databind, reactor-netty, wiremock-jre8, mockito, assertj, lombok (optional), spotless.
-Adopt hexagonal architecture: controllers -> service (domain) -> ports; adapters implement ports. Generate code and wire configuration.
+/speckit.plan
+Create an OpenAPI 3.1 spec named Drug Interactions API. Resources:
+- POST /interactions: upsert an interaction note for a drug pair {drugA, drugB, note}.
+- GET /interactions?drugA&drugB: fetch interaction note if present.
+- GET /signals?drugA&drugB&limit=50: call openFDA drug/event to aggregate records where both names appear in patient.drug.medicinalproduct; return {count, topReactions[reaction, n]}.
+- Validations: drug names 3–60 chars, alphabetic + spaces/hyphens.
+- Errors: 400 validation, 404 for missing note, 502 for upstream errors.
+- Security: none (classroom).
+- Tags, examples, and JSON schemas.
+Using the OpenAPI 3.1 spec, scaffold a Spring Boot 3.3 Maven project named drug-interactions-api. Create modules:
+:app (web/controller), :domain (model + ports), :adapters:openfda (WebClient adapter), :adapters:memory (in‑memory repo), :tests (shared test fixtures). Add dependencies: spring-boot-starter-web, validation, spring-boot-starter-test, jackson-databind, reactor-netty, wiremock, mockito, assertj, lombok (optional), spotless.
+Adopt hexagonal architecture: controllers -> service (domain) -> ports; adapters implement ports. Generate code and wire configuration and populate the project with that code.
 ```
+
+Next run `/speckit.tasks`, followed by `use sequential-thinking`, followed by `/speckit.implement`.
+
+If Copilot does not add the code to the project (only shows it in the chat window), submit a follow-up: `Please add all of that code to the project`
+
+After all code is generated, if presented with a **Load Maven Project** button, click it; otherwise, click on the "bell" icon in the upper right and click **Load Maven Project** from there.
+
+If Copilot does not suggest a build, submit: `Please do a Maven build of my project to make sure it builds clean`
 
 ### Prompt C2 — Implement domain & ports
 
